@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    const modalTimerId = setTimeout(openModal, 5000); // open modal window after 5s
+    const modalTimerId = setTimeout(openModal, 50000); // open modal window after 5s
     
     function showModalByScroll() {
         if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
@@ -247,10 +247,6 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             form.insertAdjacentElement('afterend', statusMessage);  // change the append method
 
-            const request = new XMLHttpRequest();
-            request.open('POST', 'server.php');
-
-            request.setRequestHeader('Content-type', 'application/json');
             const formData = new FormData(form);
 
             const object = {};
@@ -258,20 +254,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 object[key] = value;
             });
 
-            const json = JSON.stringify(object);
 
-            request.send(json);
-
-            request.addEventListener('load', () => {
-                if (request.status === 200) {
-                    console.log(request.response);
-                    showThanksModal(message.success);    // call the new method
-                    form.reset();                          // cleaning forms
-                    statusMessage.remove();
-                } else {
-                    showThanksModal(message.failure);
-                }
+            fetch('server.php', {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/text'
+                },
+                body: JSON.stringify(object)
+            })
+            .then(data => data.text())
+            .then(data => { 
+                console.log(data);
+                showThanksModal(message.success);    // call the new method
+                statusMessage.remove();
+            }).catch(() => {
+                showThanksModal(message.failure);
+                console.log('catch');
+            }).finally(() => {
+                form.reset();
+                console.log('finally');
             });
+
         });
     }
 
@@ -298,4 +301,5 @@ document.addEventListener('DOMContentLoaded', () => {
             closeModal();
         }, 4000);
     }
+
 });
