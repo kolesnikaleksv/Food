@@ -187,40 +187,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    const getResource = async (url) => {
+        const res = await fetch(url);
 
-    new MenuCard(
-            "https://f1.ds-ua.net/u_dirs/002/2659/0d03f55d7a5632e1f9ae2ecc19da8c15.jpg", 
-            "vegy",
-            "Ожиряшка",
-        `,мы используем не только много майонеза и жира как наполнитель, но и 
-        качественное сало как украшение, которое кстати при этом не содержит  
-        ни капли мяса - это самое белое меню`,
-        23,
-        ".menu .container",
-        "menu__item"
-    ).render();
-    new MenuCard(
-        "https://c7.hotpng.com/preview/521/365/115/earthworms-wikia-digital-pet-others.jpg", 
-        "vegy",
-        "Букашка",
-        `,мы используем не только много жуков и  и мух как наполнитель, но и толстых дождевых 
-        червей как украшение, которое кстати при этом содержат много земли при минимуму каллорий 
-        - это самое землистое меню`,
-        22,
-        ".menu .container",
-        "menu__item"
-    ).render();
-    new MenuCard(
-        "img/tabs/post.jpg", 
-        "vegy",
-        "Постное",
-        `- это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения,
-            молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и
-            импортных вегетарианских стейков.`,
-        22,
-        ".menu .container",
-        "menu__item"
-    ).render();
+        if (!res.ok) {
+            throw new Error(`Could not fetch ${url}, status: ${res.status}`);
+        }
+
+        return await res.json();
+    };
+
+    getResource('http://localhost:3000/menu')
+        .then(data => {
+            data.forEach(({img, altimg, title, descr, price}) => {
+                new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
+            });
+        });
+
+    
 
         //Forms
     const forms = document.querySelectorAll('form');
@@ -232,10 +216,22 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     forms.forEach(item => {
-        postData(item); 
+        bindPostData(item); 
     });
 
-    function postData(form) {
+    const postData = async (url, data) => {
+        const res = await fetch(url, {
+            method: 'POST',
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: data
+        });
+
+        return await res.json();
+    };
+
+    function bindPostData(form) {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
 
@@ -249,20 +245,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const formData = new FormData(form);
 
-            const object = {};
-            formData.forEach(function(value, key){
-                object[key] = value;
-            });
+            const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
-
-            fetch('server.php', {
-                method: 'POST',
-                headers: {
-                    'Content-type': 'application/text'
-                },
-                body: JSON.stringify(object)
-            })
-            .then(data => data.text())
+            postData('http://localhost:3000/requests', json)
             .then(data => { 
                 console.log(data);
                 showThanksModal(message.success);    // call the new method
@@ -302,4 +287,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 4000);
     }
 
+    // fetch('http://localhost:3000/menu')
+    //     .then(item => item.json())
+    //     .then(res => console.log(res));
+
 });
+
+
