@@ -299,91 +299,100 @@ document.addEventListener('DOMContentLoaded', () => {
           prev = document.querySelector('.offer__slider-prev'),
           next = document.querySelector('.offer__slider-next'),
           current = document.querySelector('#current'),
-          total = document.querySelector('#total');
-
-          total.innerHTML = getZero(slides.length);
-          
+          total = document.querySelector('#total'),
+          slidesWrapper = document.querySelector('.offer__slider-wrapper'),
+          slidesField = document.querySelector('.offer__slider-inner'),
+          width = window.getComputedStyle(slidesWrapper).width; // get the width of the slider window from computedStyle
+    
+    let offset = 0;
     let slideIndex = 1;
+    total.innerHTML = getZero(slides.length);
 
-    showSlides(slideIndex);
-
-    function showSlides(n) {
-        if(n > slides.length) {
-            slideIndex = 1;
-        }
-        if(n < 1) {
-            slideIndex = slides.length;
-        }
-        slides.forEach(item =>  item.classList.add('hide'));
-        slides[slideIndex - 1].classList.remove('hide');
-        slides[slideIndex - 1].classList.add('show');
-        current.innerHTML = getZero(slideIndex);
-    }
-    
-
-    function plusSlides(n) {
-        showSlides(slideIndex += n);
-    }
-
-    function minusSlides(n) {
-        showSlides(slideIndex -= n);
-    }
-    
-    prev.addEventListener('click', () => {
-        minusSlides(-1);
-    });
+    slidesField.style.width = 100 * slides.length + '%'; // we get the total width, and equals 400%
+    slidesField.style.display = 'flex';
+    slidesField.style.transition = '0.5s all';
+    slides.forEach(slide => slide.style.width = width); // set the width of the pictures
+     
+    slidesWrapper.style.overflow = 'hidden'; // hide everything that does not fall into scope
 
     next.addEventListener('click', () => {
-        plusSlides(1);
+        if (offset == +width.slice(0, width.length - 2) * (slides.length - 1)) {
+            offset = 0;
+        } else {
+            offset += +width.slice(0, width.length - 2);
+        }
+
+        slidesField.style.transform = `translateX(-${offset}px)`;
+
+        if (slideIndex == slides.length) {
+            slideIndex = 1;
+        } else {
+            slideIndex++;
+        }
+
+        if (slides.length < 10) {
+            current.textContent = `0${slideIndex}`;
+        } else {
+            current.textContent = slideIndex;
+        }
+        
+            
+        
     });
-    
-    // sliders.forEach((index, item) => {
-    //     hideSlider(item);
-    //     if(sliders[item].classList.contains('show')) {
-    //         let currentItem = item;
-    //         current.innerHTML = getZero(item + 1);
-    //         //console.log(currentItem);
-    //         //console.log(item);
-    //         if(currentItem < 0) {
-    //             currentItem = sliders.length;
-    //         } else if(currentItem > sliders.length) {
-    //             currentItem = 0;
-    //         }
-    //         console.log(currentItem);
+
+    prev.addEventListener('click', () => {
+        if (offset == 0) {
+            offset = +width.slice(0, width.length - 2) * (slides.length - 1);
+        } else {
+            offset -= +width.slice(0, width.length - 2);
+        }
+
+        slidesField.style.transform = `translateX(-${offset}px)`;
+
+        if (slideIndex == 1) {
+            slideIndex = slides.length;
+        } else {
+            slideIndex--;
+        }
+
+        if (slides.length < 10) {
+            current.textContent = `0${slideIndex}`;
+        } else {
+            current.textContent = slideIndex;
+        }
+    });
+
+    //       total.innerHTML = getZero(slides.length);
+    // showSlides(slideIndex);
+
+    // function showSlides(n) {
+    //     if(n > slides.length) {
+    //         slideIndex = 1;
     //     }
-    // });
-
-    // arrowLeft.addEventListener('click', (e) => {
-    //     //showSlider(currentItem);
-    //    //hideSlider(currentItem);
-    // });
-    
-    // arrowRight.addEventListener('click', () => {
-    //     console.log(arrowRight);
-    // });
-
-    // function hideSlider(i) {
-    //         sliders[i].classList.remove('show');
-    //         sliders[i].classList.add('hide');
+    //     if(n < 1) {
+    //         slideIndex = slides.length;
+    //     }
+    //     slides.forEach(item =>  item.classList.add('hide'));
+    //     slides[slideIndex - 1].classList.remove('hide');
+    //     slides[slideIndex - 1].classList.add('show');
+    //     current.innerHTML = getZero(slideIndex);
     // }
 
-    // function showSlides(i = 0) {
-    //     if(slideindex > 4) {
-
-    //     }
-    //     sliders[i].classList.remove('hide');
-    //     sliders[i].classList.add('show');
-           
+    // function plusSlides(n) {
+    //     showSlides(slideIndex += n);
     // }
-    // showSlider();
-    
-    
-    
 
+    // function minusSlides(n) {
+    //     showSlides(slideIndex -= n);
+    // }
     
+    // prev.addEventListener('click', () => {
+    //     minusSlides(-1);
+    // });
 
-
-    
+    // next.addEventListener('click', () => {
+    //     plusSlides(1);
+    // });
 
     
 
