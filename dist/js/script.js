@@ -2225,45 +2225,18 @@ document.addEventListener('DOMContentLoaded', () => {
     return await res.json();
   }; // getResource('http://localhost:3000/menu')
   //     .then(data => {
-  // data.forEach(({img, altimg, title, descr, price}) => {
-  //     new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
-  // });
-  //     });
-
-
-  axios.get('http://localhost:3000/menu').then(data => {
-    data.data.forEach(({
-      img,
-      altimg,
-      title,
-      descr,
-      price
-    }) => {
-      new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
-    });
-  }); // two variant forming cards without using classes
-  // getResource('http://localhost:3000/menu')
-  //     .then(data => createCard(data));
-  //     function createCard(data) {
   //         data.forEach(({img, altimg, title, descr, price}) => {
-  //             const element = document.createElement('div');
-  //             price = price * 27;
-  //             element.classList.add('menu__item');
-  //             element.innerHTML = `
-  //                 <img src="${img}" alt="${altimg}">
-  //                 <h3 class="menu__item-subtitle"> ${title}</h3>
-  //                 <div class="menu__item-descr"> ${descr}
-  //                 </div>
-  //                 <div class="menu__item-divider"></div>
-  //                 <div class="menu__item-price">
-  //                     <div class="menu__item-cost">Цена:</div>
-  //                     <div class="menu__item-total"><span>${price}</span> грн/день</div>
-  //                 </div>
-  //             `;
-  //             document.querySelector('.menu .container').append(element);
+  //             new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
   //         });
-  //     }
+  //     });
+  // axios.get('http://localhost:3000/menu')
+  //     .then(data => {
+  //         data.data.forEach(({img, altimg, title, descr, price}) => {
+  //             new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
+  //         });
+  //     });
   //Forms
+
 
   const forms = document.querySelectorAll('form');
   const message = {
@@ -2338,10 +2311,79 @@ document.addEventListener('DOMContentLoaded', () => {
       prevModalDialog.classList.remove('hide');
       closeModal();
     }, 4000);
-  } // fetch('http://localhost:3000/menu')
-  //     .then(item => item.json())
-  //     .then(res => console.log(res));
+  } //slider
 
+
+  const slides = document.querySelectorAll('.offer__slide'),
+        prev = document.querySelector('.offer__slider-prev'),
+        next = document.querySelector('.offer__slider-next'),
+        current = document.querySelector('#current'),
+        total = document.querySelector('#total');
+  total.innerHTML = getZero(slides.length);
+  let slideIndex = 1;
+  showSlides(slideIndex);
+
+  function showSlides(n) {
+    if (n > slides.length) {
+      slideIndex = 1;
+    }
+
+    if (n < 1) {
+      slideIndex = slides.length;
+    }
+
+    slides.forEach(item => item.classList.add('hide'));
+    slides[slideIndex - 1].classList.remove('hide');
+    slides[slideIndex - 1].classList.add('show');
+    current.innerHTML = getZero(slideIndex);
+  }
+
+  function plusSlides(n) {
+    showSlides(slideIndex += n);
+  }
+
+  function minusSlides(n) {
+    showSlides(slideIndex -= n);
+  }
+
+  prev.addEventListener('click', () => {
+    minusSlides(-1);
+  });
+  next.addEventListener('click', () => {
+    plusSlides(1);
+  }); // sliders.forEach((index, item) => {
+  //     hideSlider(item);
+  //     if(sliders[item].classList.contains('show')) {
+  //         let currentItem = item;
+  //         current.innerHTML = getZero(item + 1);
+  //         //console.log(currentItem);
+  //         //console.log(item);
+  //         if(currentItem < 0) {
+  //             currentItem = sliders.length;
+  //         } else if(currentItem > sliders.length) {
+  //             currentItem = 0;
+  //         }
+  //         console.log(currentItem);
+  //     }
+  // });
+  // arrowLeft.addEventListener('click', (e) => {
+  //     //showSlider(currentItem);
+  //    //hideSlider(currentItem);
+  // });
+  // arrowRight.addEventListener('click', () => {
+  //     console.log(arrowRight);
+  // });
+  // function hideSlider(i) {
+  //         sliders[i].classList.remove('show');
+  //         sliders[i].classList.add('hide');
+  // }
+  // function showSlides(i = 0) {
+  //     if(slideindex > 4) {
+  //     }
+  //     sliders[i].classList.remove('hide');
+  //     sliders[i].classList.add('show');
+  // }
+  // showSlider();
 });
 
 /***/ })
