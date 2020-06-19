@@ -349,15 +349,8 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             slideIndex++;
         }
-
-        if (slides.length < 10) {
-            current.textContent = `0${slideIndex}`;
-        } else {
-            current.textContent = slideIndex;
-        }
         
-        dots.forEach(dot => dot.style.opacity = '.5');
-        dots[slideIndex - 1].style.opacity = 1;
+        generalChanges();
     });
 
     prev.addEventListener('click', () => {
@@ -375,14 +368,7 @@ document.addEventListener('DOMContentLoaded', () => {
             slideIndex--;
         }
 
-        if (slides.length < 10) {
-            current.textContent = `0${slideIndex}`;
-        } else {
-            current.textContent = slideIndex;
-        }
-
-        dots.forEach(dot => dot.style.opacity = '.5');
-        dots[slideIndex - 1].style.opacity = 1;    
+        generalChanges();
     });
 
     dots.forEach(dot => {
@@ -394,16 +380,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
             slidesField.style.transform = `translateX(-${offset}px)`;
 
-            if (slides.length < 10) {
-                current.textContent = `0${slideIndex}`;
-            } else {
-                current.textContent = slideIndex;
-            }
-
-            dots.forEach(dot => dot.style.opacity = '.5');
-            dots[slideIndex - 1].style.opacity = 1; 
+            generalChanges();
         });
     });
+
+    function generalChanges() {
+        dots.forEach(dot => dot.style.opacity = '.5');
+        dots[slideIndex - 1].style.opacity = 1; 
+
+        if (slides.length < 10) {
+            current.textContent = `0${slideIndex}`;
+        } else {
+            current.textContent = slideIndex;
+        }
+    }
 
     // const slides = document.querySelectorAll('.offer__slide'),
     //       prev = document.querySelector('.offer__slider-prev'),

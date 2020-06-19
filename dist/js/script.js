@@ -2371,14 +2371,7 @@ document.addEventListener('DOMContentLoaded', () => {
       slideIndex++;
     }
 
-    if (slides.length < 10) {
-      current.textContent = `0${slideIndex}`;
-    } else {
-      current.textContent = slideIndex;
-    }
-
-    dots.forEach(dot => dot.style.opacity = '.5');
-    dots[slideIndex - 1].style.opacity = 1;
+    generalChanges();
   });
   prev.addEventListener('click', () => {
     if (offset == 0) {
@@ -2395,14 +2388,7 @@ document.addEventListener('DOMContentLoaded', () => {
       slideIndex--;
     }
 
-    if (slides.length < 10) {
-      current.textContent = `0${slideIndex}`;
-    } else {
-      current.textContent = slideIndex;
-    }
-
-    dots.forEach(dot => dot.style.opacity = '.5');
-    dots[slideIndex - 1].style.opacity = 1;
+    generalChanges();
   });
   dots.forEach(dot => {
     dot.addEventListener('click', e => {
@@ -2410,17 +2396,20 @@ document.addEventListener('DOMContentLoaded', () => {
       slideIndex = slideTo;
       offset = +width.slice(0, width.length - 2) * (slideTo - 1);
       slidesField.style.transform = `translateX(-${offset}px)`;
-
-      if (slides.length < 10) {
-        current.textContent = `0${slideIndex}`;
-      } else {
-        current.textContent = slideIndex;
-      }
-
-      dots.forEach(dot => dot.style.opacity = '.5');
-      dots[slideIndex - 1].style.opacity = 1;
+      generalChanges();
     });
-  }); // const slides = document.querySelectorAll('.offer__slide'),
+  });
+
+  function generalChanges() {
+    dots.forEach(dot => dot.style.opacity = '.5');
+    dots[slideIndex - 1].style.opacity = 1;
+
+    if (slides.length < 10) {
+      current.textContent = `0${slideIndex}`;
+    } else {
+      current.textContent = slideIndex;
+    }
+  } // const slides = document.querySelectorAll('.offer__slide'),
   //       prev = document.querySelector('.offer__slider-prev'),
   //       next = document.querySelector('.offer__slider-next'),
   //       current = document.querySelector('#current'),
@@ -2451,6 +2440,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // next.addEventListener('click', () => {
   //     plusSlides(1);
   // });
+
 });
 
 /***/ })
