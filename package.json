@@ -38,6 +38,8 @@
   "homepage": "https://github.com/kolesnikaleksv/Food#readme",
   "description": "",
   "dependencies": {
-    "core-js": "^3.6.5"
+    "core-js": "^3.6.5",
+    "es6-promise": "^4.2.8",
+    "nodelist-foreach-polyfill": "^1.2.0"
   }
 }
