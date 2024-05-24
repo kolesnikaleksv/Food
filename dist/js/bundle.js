@@ -4196,8 +4196,7 @@
   __webpack_require__.r(__webpack_exports__);
   /* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.string.replace */ "./node_modules/core-js/modules/es.string.replace.js");
   /* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_0__);
-  
-  
+
   function slider({
     container,
     slide,
@@ -4258,7 +4257,7 @@
   
     slidesWrapper.style.overflow = 'hidden'; // hide everything that does not fall into scope
   
-    const digClean = () => +width.replace(/\D/g, '');
+    const digClean = () => +width.replace(/[^\d.]/g, '');
   
     next.addEventListener('click', () => {
       if (offset == digClean() * (slides.length - 1)) {
