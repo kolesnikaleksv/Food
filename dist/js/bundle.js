@@ -4472,7 +4472,7 @@
   
     Object(_modules_tabs__WEBPACK_IMPORTED_MODULE_1__["default"])('.tabheader__item', '.tabcontent', '.tabheader__items', 'tabheader__item_active');
     Object(_modules_modals__WEBPACK_IMPORTED_MODULE_2__["default"])('[data-modal]', '.modal', modalTimerId);
-    Object(_modules_timer__WEBPACK_IMPORTED_MODULE_3__["default"])('.timer', '2020-07-09');
+    Object(_modules_timer__WEBPACK_IMPORTED_MODULE_3__["default"])('.timer', '2024-07-09');
     Object(_modules_slider__WEBPACK_IMPORTED_MODULE_4__["default"])({
       container: '.offer__slider',
       slide: '.offer__slide',
